@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './modules/auth/login/login.component';
-import { RegisterComponent } from './modules/auth/register/register.component';
-import { MainComponent } from './core/modules/main/main/main.component';
-import { AuthGuard } from './modules/auth/auth.guard';
-import { IsLoggedGuard } from './modules/auth/is-logged.guard';
-import { ActivationLinkComponent } from './modules/auth/activation-link/activation-link.component';
+import { MainComponent } from '@core/modules/main/main/main.component';
+import { AuthGuard } from '@shared/auth/guards/auth.guard';
+import { IsLoggedGuard } from '@shared/auth/guards/is-logged.guard';
+import { LoginComponent } from '@modules/auth/components/login/login.component';
+import { RegisterComponent } from '@modules/auth/components/register/register.component';
+import { ActiveAccountComponent } from '@modules/auth/components/active-account/active-account.component';
+import { ForgotPasswordComponent } from '@modules/auth/components/forgot-password/forgot-password.component';
+import { NewPasswordComponent } from '@modules/auth/components/new-password/new-password.component';
 
 const routes: Routes = [
   {
@@ -20,8 +22,18 @@ const routes: Routes = [
     canActivate: [IsLoggedGuard],
   },
   {
-    path: 'auth/activation-link',
-    component: ActivationLinkComponent,
+    path: 'auth/active-account/:token',
+    component: ActiveAccountComponent,
+    canActivate: [IsLoggedGuard],
+  },
+  {
+    path: 'auth/forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [IsLoggedGuard],
+  },
+  {
+    path: 'auth/new-password/:token',
+    component: NewPasswordComponent,
     canActivate: [IsLoggedGuard],
   },
 ];

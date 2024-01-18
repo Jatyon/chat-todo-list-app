@@ -1,14 +1,14 @@
-<form (ngSubmit)="register()">
+<form (ngSubmit)="register()" *ngIf="step === 1">
   <label for="email">Email:</label>
   <input type="email" id="email" name="email" [(ngModel)]="email" required>
 
   <label for="password">Password:</label>
   <input type="password" id="password" name="password" [(ngModel)]="password" required>
 
-  <label for="secondPassword">Second Password:</label>
-  <input type="password" id="secondPassword" name="secondPassword" [(ngModel)]="secondPassword" required>
+  <label for="repeatPassword">Repeat Password:</label>
+  <input type="password" id="repeatPassword" name="repeatPassword" [(ngModel)]="repeatPassword" required>
 
-
-  <!-- tu jeszcze checkbox -->
   <button type="submit">Register</button>
 </form>
+
+<p *ngIf="step === 2">activation-link works!</p>

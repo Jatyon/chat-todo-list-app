@@ -1,0 +1,24 @@
+<p *ngIf="activationMessage !== ''">{{activationMessage}}</p>
+
+<div *ngIf="step === 1">
+  <form (ngSubmit)="login()">
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" [(ngModel)]="email" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" [(ngModel)]="password" required>
+
+    <button type="submit">Login</button>
+  </form>
+
+  <a href="auth/forgot-password">zapomiałem hasła</a>
+</div>
+
+
+<div class="modal" *ngIf="step === 2">
+  <h2>Wprowadź kod autoryzacyjny</h2>
+  <input type="text" [(ngModel)]="twoFactorCode" placeholder="Kod autoryzacyjny">
+  <button (click)="submitTwoFactorCode()">Zatwierdź</button>
+</div>
+
+<!-- <app-two-fa *ngIf="showTwoFaModal" [email]="username"></app-two-fa> -->
