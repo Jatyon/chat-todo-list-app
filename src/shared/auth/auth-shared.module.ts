@@ -10,11 +10,11 @@ import { AuthRest } from '@shared/auth/rest/auth.rest';
   providers: [
     AuthService,
     AuthRest,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: BasicInterceptor,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: BasicInterceptor,
+    //   multi: true,
+    // },
   ],
 })
 export class AuthSharedModule {}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthRest } from '@shared/auth/rest/auth.rest';
+import { AuthService } from '@shared/auth/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,7 @@ import { AuthRest } from '@shared/auth/rest/auth.rest';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private authRest: AuthRest, private router: Router, private route: ActivatedRoute) {
+  constructor(private authRest: AuthRest, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
     const navigationState = window.history.state;
     if (navigationState && navigationState.message) {
       this.activationMessage = navigationState.message;
@@ -28,9 +29,10 @@ export class LoginComponent {
       if (data) {
         if (data.access_token) {
           const { access_token, refresh_token } = data;
-          const token: string = JSON.stringify({ access_token, refresh_token });
 
-          localStorage.setItem('token', token);
+          this.authService.setAccessToken(access_token);
+          this.authService.setRefreshToken(refresh_token);
+          this.authService.setUser(this.email);
           this.loginErrorStep1 = false; //TODO: moze nie byc
           this.router.navigate(['/']);
         } else this.step = 2;
@@ -42,10 +44,11 @@ export class LoginComponent {
     this.authRest.verifyTwoFactorAuth(this.email, this.twoFactorCode).subscribe((data) => {
       if (data) {
         const { access_token, refresh_token } = data;
-        const token: string = JSON.stringify({ access_token, refresh_token });
 
         this.loginErrorStep2 = false; //TODO: moze nie byc
-        localStorage.setItem('token', token);
+        this.authService.setAccessToken(access_token);
+        this.authService.setRefreshToken(refresh_token);
+        this.authService.setUser(this.email);
         this.router.navigate(['/']);
       } else this.loginErrorStep2 = true;
     });

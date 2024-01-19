@@ -1,1 +1,23 @@
-<p>main works!</p>
+<div class="two-fa-info" *ngIf="!isTwoFa">
+    <h2>Wprowadź autoryzacje dwuskladnikowa</h2>
+    <button (click)="cancelModal()">Może później</button>
+    <button (click)="submitTwoFactor()">Wprowadź</button>
+</div>
+
+<div class="two-fa-modal" *ngIf="step === 1">
+    <h2>to twój token</h2>
+    <p>{{secret}}</p>
+    <img [src]="qrCode" alt="">
+    <button (click)="submitToken()">Potwierdź token</button>
+</div>
+
+<form (ngSubmit)="submitCode()" *ngIf="step === 2">
+
+    <label for="code">Wprowadź kod:</label>
+    <input type="text" id="twoFactorCode" name="twoFactorCode" [(ngModel)]="twoFactorCode" required>
+
+    <button type="submit">Wyślij</button>
+</form>
+
+
+<p>cos tam</p>
