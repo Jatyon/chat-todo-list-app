@@ -20,4 +20,25 @@
 </form>
 
 
-<p>cos tam</p>
+<div class="main" *ngIf="step === 0">
+    <p>cos tam</p>
+    <button (click)="addBoardHandle()">Dodaj tablicę</button>
+
+
+    <div class="boards">
+        <p *ngFor="let board of boards" (click)="goToBoard(board.id, board.shared)">{{board.name}}</p>
+    </div>
+
+    <div *ngIf="isCreateBoard">
+        <p *ngFor="let member of boardMembers">{{member}}</p>
+        <form ngNoForm (ngSubmit)="submitBoard()">
+
+            <label for="boardname">Wprowadź Nazwę:</label>
+            <input type="text" id="boardname" name="boardName" [(ngModel)]="boardName" required>
+            <label for="member">Wprowadź Członka:</label>
+            <input type="text" id="member" name="member" [(ngModel)]="member" (keydown.enter)="addMember()" >
+ <!-- TODO:poprawic -->
+            <button type="submit" (keydown.enter)="$event.preventDefault()">Dodaj</button>
+        </form>
+    </div>
+</div>

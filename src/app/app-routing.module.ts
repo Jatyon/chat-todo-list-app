@@ -8,13 +8,32 @@ import { RegisterComponent } from '@modules/auth/components/register/register.co
 import { ActiveAccountComponent } from '@modules/auth/components/active-account/active-account.component';
 import { ForgotPasswordComponent } from '@modules/auth/components/forgot-password/forgot-password.component';
 import { NewPasswordComponent } from '@modules/auth/components/new-password/new-password.component';
+import { BoardComponent } from '@modules/board/components/board/board.component';
+import { BoardShareComponent } from '@modules/board-share/board-share/board-share.component';
 
 const routes: Routes = [
+  // { path: '', redirectTo: '', pathMatch: 'full' },
   {
     path: '',
     component: MainComponent,
     canActivate: [AuthGuard],
+    data: {
+      title: 'Home',
+    },
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('@core/modules/main/main.module').then((m) => m.MainModule),
+      },
+      // {
+      //   path: 'board',
+      //   loadChildren: () => import('@modules/board/board.module').then((m) => m.BoardModule),
+      // },
+    ],
   },
+  { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] },
+  { path: 'board/share/:id', component: BoardShareComponent, canActivate: [AuthGuard] },
+
   { path: 'auth/login', component: LoginComponent, canActivate: [IsLoggedGuard] },
   {
     path: 'auth/register',

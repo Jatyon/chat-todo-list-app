@@ -1,0 +1,21 @@
+<p>board-share works!</p>
+
+<form (ngSubmit)="submitTask()">
+
+    <label for="title">nazwa</label>
+    <input type="text" id="title" name="title" [(ngModel)]="addTask.title">
+    <label for="category">Kategoria</label>
+    <input type="text" id="category" name="category" [(ngModel)]="addTask.category" required>
+    <label for="description">Opis</label>
+    <input type="text" id="description" name="description" [(ngModel)]="addTask.description" required>
+
+    <button type="submit">Wyślij</button>
+</form>
+
+<div class="tasks">
+    <div *ngFor="let task of tasks">
+        <p>{{task.title}} {{task.done}}</p>
+        <button>zrobione</button>
+        <button>usun</button>
+    </div>
+</div>
