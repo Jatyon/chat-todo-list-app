@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from '@env/environment';
 import { Task } from '@modules/board/models/task.model';
+import { AuthService } from '@shared/auth/services/auth.service';
 import { Socket, io } from 'socket.io-client';
 
 @Component({
@@ -12,28 +15,35 @@ export class BoardShareComponent {
   tasks: Task[] = [];
   addTask: Pick<Task, 'title' | 'category' | 'description' | 'done'> = { title: '', category: '', description: '', done: false };
 
+  constructor(private authService: AuthService, private route: ActivatedRoute) {}
+
   ngOnInit() {
-    this.socket = io('http://localhost:3112', {
+    this.socket = io(environment.host, {
       extraHeaders: {
-        Authorization:
-          'Bearer ' +
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNvc0B3cC5wbCIsImlhdCI6MTcwNjEwNDE1MywiZXhwIjoxNzA2MTE0MTUzfQ._PiETtKuW3oSKuQtUIbUk7a0Ecc1CBeuBoo_2jhQuH8',
+        Authorization: 'Bearer ' + this.authService.getAccessToken(),
       },
     });
 
-    // this.socket.on('connect', () => {
-    //   console.log('Connected to WebSocket');
-    // });
-    this.socket.emit('board:join', 'token');
+    this.socket.on('connect', () => {
+      const boardId: string | null = this.route.snapshot.paramMap.get('id');
+      this.socket.emit('board:join', boardId);
+    });
+
+    this.socket.on('error', () => {
+      this.authService.logout();
+    });
 
     this.socket.on('board:load:tasks', (tasks: Task[]) => {
-      console.log(tasks);
-      console.log('Connected to WebSocket');
       this.tasks = tasks;
     });
-    // const data = 'asdas';
-    //
+
+    this.socket.on('board:send:task', (task: Task) => {
+      this.tasks = [...this.tasks, task];
+    });
   }
 
-  submitTask() {}
+  submitTask() {
+    console.log(this.addTask);
+    this.socket.emit('board:add:task', this.addTask);
+  }
 }
