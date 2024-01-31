@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MainRest } from '@core/modules/rest/main.rest';
 import { Task } from '@modules/board/models/task.model';
+import { AuthService } from '@shared/auth/services/auth.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-task',
@@ -9,7 +11,7 @@ import { Task } from '@modules/board/models/task.model';
   styleUrls: ['./task.component.scss'],
 })
 export class TaskComponent {
-  constructor(private mainRest: MainRest, private route: ActivatedRoute, private router: Router) {}
+  constructor(private mainRest: MainRest, private route: ActivatedRoute, private router: Router, private authService: AuthService) {}
 
   board: string | null = '';
   tasks: Task[] = [];
@@ -30,10 +32,13 @@ export class TaskComponent {
 
     this.board = this.route.snapshot.paramMap.get('id');
 
-    this.mainRest.getTasks(parseInt(this.board as string)).subscribe((tasks: Task[]) => {
-      console.log(tasks);
-      this.tasks = tasks;
-    });
+    this.mainRest
+      .getTasks(parseInt(this.board as string))
+      .pipe(catchError((err: any) => throwError(() => console.log(err))))
+      .subscribe((tasks: Task[]) => {
+        console.log(tasks);
+        this.tasks = tasks;
+      });
   }
 
   submitTask() {

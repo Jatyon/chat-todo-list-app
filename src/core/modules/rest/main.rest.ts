@@ -22,6 +22,18 @@ export class MainRest {
     return this.httpClient.get(`${this.path}/board`);
   }
 
+  getMembers(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.path}/board/members/${id}`);
+  }
+
+  addMember(id: number, email: string): Observable<any> {
+    return this.httpClient.patch<any>(`${this.path}/board/member/${id}`, { email });
+  }
+
+  removeMember(id: number, email: string): Observable<any> {
+    return this.httpClient.patch<any>(`${this.path}/board/member/del/${id}`, { email });
+  }
+
   getTasks(id: number): Observable<Task[]> {
     return this.httpClient.get<Task[]>(`${this.path}/task/${id}`);
   }

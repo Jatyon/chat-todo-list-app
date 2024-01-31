@@ -1,0 +1,64 @@
+<p>board-share works!</p>
+
+<button (click)="showMember()">czlonkowie</button>
+
+<div class="members" *ngIf="showMembers">
+    <form (ngSubmit)="addMember()">
+
+        <label for="newMember">email</label>
+        <input type="text" id="newMember" name="newMember" [(ngModel)]="newMember">
+
+        <button type="submit">Dodaj</button>
+    </form>
+    <div *ngFor="let member of members">
+        <p>{{member}}</p>
+
+        <button (click)="removeMember(member)">usun</button>
+    </div>
+</div>
+
+
+<div class="tasks">
+    <div *ngFor="let task of tasks">
+        <p (click)="showDetailsTask(task.id)">{{task.title}} {{task.done}}</p>
+        <button (click)="doneTask(task.id)">zrobione</button>
+        <button (click)="removeTask(task.id)">usun</button>
+    </div>
+</div>
+
+<form (ngSubmit)="submitTask()">
+
+    <label for="title">nazwa</label>
+    <input type="text" id="title" name="title" [(ngModel)]="addTask.title">
+    <label for="category">Kategoria</label>
+    <input type="text" id="category" name="category" [(ngModel)]="addTask.category" required>
+    <label for="description">Opis</label>
+    <input type="text" id="description" name="description" [(ngModel)]="addTask.description" required>
+
+    <button type="submit">Wyślij</button>
+</form>
+
+<div class="tasks">
+    <div *ngFor="let task of tasks">
+        <p (click)="showDetailsTask(task.id)">{{task.title}} {{task.done}}</p>
+        <button (click)="doneTask(task.id)">zrobione</button>
+        <button (click)="removeTask(task.id)">usun</button>
+    </div>
+</div>
+
+<div class="task-modal" *ngIf="showTaskDetails">
+    <label for="title">Tytuł</label>
+    <input type="text" id="title" name="title" [(ngModel)]="taskDetails.title" value={{taskDetails.title}} required>
+    <label for="category">Kategoria</label>
+    <input type="text" id="category" name="category" [(ngModel)]="taskDetails.category" value={{taskDetails.category}}
+        required>
+    <label for="description">Opis</label>
+    <input type="text" id="description" name="description" [(ngModel)]="taskDetails.description"
+        value={{taskDetails.description}} required>
+    <label for="done">Status</label>
+    <input type="checkbox" name="done" [(ngModel)]="taskDetails.done" checked={{taskDetails.done}}>
+    <button (click)="hideDetailsTask(taskDetails.id)">edytuj</button>
+</div>
+
+
+<app-chat [email]="email" [token]="token" [socket]="socket"></app-chat>

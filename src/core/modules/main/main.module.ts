@@ -4,13 +4,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from '@core/interceptors/auth-interceptor';
 import { MainComponent } from '@core/modules/main/main/main.component';
-import { TodoComponent } from '@core/modules/main/todo/todo.component';
-import { ChatComponent } from '@core/modules/main/chat/chat.component';
 import { MainRest } from '@core/modules/rest/main.rest';
 import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
-  declarations: [TodoComponent, ChatComponent, MainComponent],
+  declarations: [MainComponent],
   imports: [CommonModule, HttpClientModule, QRCodeModule, FormsModule],
   providers: [
     MainRest,

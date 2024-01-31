@@ -9,7 +9,7 @@ import { ActiveAccountComponent } from '@modules/auth/components/active-account/
 import { ForgotPasswordComponent } from '@modules/auth/components/forgot-password/forgot-password.component';
 import { NewPasswordComponent } from '@modules/auth/components/new-password/new-password.component';
 import { BoardComponent } from '@modules/board/components/board/board.component';
-import { BoardShareComponent } from '@modules/board-share/board-share/board-share.component';
+import { BoardShareComponent } from '@modules/board-share/board-share.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: '', pathMatch: 'full' },

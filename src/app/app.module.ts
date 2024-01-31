@@ -7,10 +7,11 @@ import { AuthSharedModule } from '@shared/auth/auth-shared.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { BoardShareModule } from '@modules/board-share/board-share.module';
 import { BoardModule } from '@modules/board/board.module';
+import { ChatModule } from '@modules/chat/chat.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, AuthModule, AuthSharedModule, MainModule, BoardModule, BoardShareModule],
+  imports: [BrowserModule, AppRoutingModule, AuthModule, AuthSharedModule, MainModule, BoardModule, BoardShareModule, ChatModule],
   providers: [],
   bootstrap: [AppComponent],
 })

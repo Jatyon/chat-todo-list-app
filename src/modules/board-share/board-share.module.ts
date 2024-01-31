@@ -1,19 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { BoardShareComponent } from '@modules/board-share/board-share/board-share.component';
-import { AuthInterceptor } from '@core/interceptors/auth-interceptor';
+import { BoardShareComponent } from '@modules/board-share/board-share.component';
+import { ChatModule } from '@modules/chat/chat.module';
 
 @NgModule({
   declarations: [BoardShareComponent],
-  imports: [CommonModule, FormsModule],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
-  ],
+  imports: [CommonModule, FormsModule, ChatModule],
 })
 export class BoardShareModule {}
