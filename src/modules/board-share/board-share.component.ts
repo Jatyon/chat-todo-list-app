@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ErrorInfoComponent } from '@core/modules/error-info/error-info.component';
 import { MainRest } from '@core/modules/rest/main.rest';
 import { environment } from '@env/environment';
 import { Task } from '@modules/board/models/task.model';
@@ -12,7 +13,9 @@ import { io } from 'socket.io-client';
   styleUrls: ['./board-share.component.scss'],
 })
 export class BoardShareComponent {
+  @ViewChild(ErrorInfoComponent) errorInfoComponent!: ErrorInfoComponent;
   socket: any;
+  errorInfo: string = '';
   token: string = '';
   email: string = '';
   tasks: Task[] = [];
@@ -167,16 +170,23 @@ export class BoardShareComponent {
   addMember() {
     this.showMembers = true;
 
-    this.mainRest.addMember(+this.boardId, this.newMember).subscribe((member: { email: string }) => {
-      this.members = [...this.members, member.email];
+    this.mainRest.addMember(+this.boardId, this.newMember).subscribe({
+      next: (member: { email: string }) => {
+        this.members = [...this.members, member.email];
+        this.newMember = '';
+      },
+      error: (error: string) => {
+        this.errorInfoComponent.showErrorNotice(error);
+      },
     });
   }
 
   removeMember(memberToRemove: string) {
     this.showMembers = true;
 
-    this.mainRest.removeMember(+this.boardId, memberToRemove).subscribe(() => {
-      this.members = this.members.filter((member) => member !== memberToRemove);
+    this.mainRest.removeMember(+this.boardId, memberToRemove).subscribe({
+      next: () => (this.members = this.members.filter((member) => member !== memberToRemove)),
+      error: (error: string) => this.errorInfoComponent.showErrorNotice(error),
     });
   }
 }

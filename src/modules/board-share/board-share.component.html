@@ -1,4 +1,5 @@
 <p>board-share works!</p>
+<app-error-info></app-error-info>
 
 <button (click)="showMember()">czlonkowie</button>
 
@@ -18,13 +19,7 @@
 </div>
 
 
-<div class="tasks">
-    <div *ngFor="let task of tasks">
-        <p (click)="showDetailsTask(task.id)">{{task.title}} {{task.done}}</p>
-        <button (click)="doneTask(task.id)">zrobione</button>
-        <button (click)="removeTask(task.id)">usun</button>
-    </div>
-</div>
+
 
 <form (ngSubmit)="submitTask()">
 

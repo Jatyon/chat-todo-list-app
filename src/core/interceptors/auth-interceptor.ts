@@ -29,12 +29,24 @@ export class AuthInterceptor implements HttpInterceptor {
                   request = this.addToken(request.clone(), res.access_token);
                   return next.handle(request);
                 }
-                return throwError(() => new Error('Token refresh error'));
+                return throwError(() => 'Token refresh error');
+              }),
+              catchError((err: any) => {
+                if (err instanceof HttpErrorResponse) {
+                  if (err.status == 400) {
+                    return throwError(() => err.error.message);
+                  }
+                  if (!refreshToken) {
+                    this.authService.logout();
+                    return throwError(() => err.error.message);
+                  }
+                }
+                return throwError(() => err);
               }),
             );
           }
         }
-        return throwError(() => new Error('Token refresh error'));
+        return throwError(() => err.error.message);
       }),
     );
   }
