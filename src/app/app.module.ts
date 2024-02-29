@@ -9,6 +9,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { BoardShareModule } from '@modules/board-share/board-share.module';
 import { BoardModule } from '@modules/board/board.module';
 import { ChatModule } from '@modules/chat/chat.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { ChatModule } from '@modules/chat/chat.module';
     BoardShareModule,
     ChatModule,
     ErrorInfoModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

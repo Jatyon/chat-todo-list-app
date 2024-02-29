@@ -1,19 +1,34 @@
 <p *ngIf="activationMessage !== ''">{{activationMessage}}</p>
 
-<div *ngIf="step === 1">
-  <form (ngSubmit)="login()">
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" [(ngModel)]="email" required>
+<div class="login-container" *ngIf="step === 1">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" formControlName="email" required>
+      <!-- <div
+      *ngIf="email.invalid && (name.dirty || name.touched)"
+      class="alert alert-danger"
+    >
+      <div *ngIf="name.errors?.['required']">Name is required.</div>
+      <div *ngIf="name.errors?.['minlength']">
+        Name must be at least 4 characters long.
+      </div>
+      <div *ngIf="name.errors?.['forbiddenName']">
+        Name cannot be Bob.
+      </div>
+    </div> -->
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" formControlName="password" required>
+    </div>
+    <div class="form-bottom">
+      <a href="auth/forgot-password">zapomiałem hasła</a>
+      <button type="submit">Login</button>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" [(ngModel)]="password" required>
-
-    <button type="submit">Login</button>
+    </div>
   </form>
-
-  <a href="auth/forgot-password">zapomiałem hasła</a>
 </div>
-
 
 <div class="modal" *ngIf="step === 2">
   <h2>Wprowadź kod autoryzacyjny</h2>
